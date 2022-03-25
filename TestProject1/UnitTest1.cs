@@ -21,7 +21,7 @@ public class Tests
         var count = 0;
         actionWithException = () =>
         {
-            while (count < 100)
+            if (count < 500)
             {
                 count++;
                 throw new Exception();
@@ -33,8 +33,9 @@ public class Tests
     [Test]
     public void TestWithoutException()
     {
-        var count = 0;
-        actionWithoutException = () => count++;
-        Assert.IsTrue(Program.InvokeWithRetry(actionWithoutException, maxAttempts));
+        var invokeCount = 0;
+        actionWithoutException = () => invokeCount++;
+        Program.InvokeWithRetry(actionWithoutException, maxAttempts);
+        Assert.AreNotEqual(maxAttempts, invokeCount);
     }
 }

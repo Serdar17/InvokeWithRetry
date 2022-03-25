@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework;
 
 namespace TestProject1;
 
@@ -6,7 +7,6 @@ public class Program
 {
     public static bool InvokeWithRetry(Action action, int maxAttempts)
     {
-        var exceptionCount = 0;
         for (var i = 0; i < maxAttempts; i++)
         {
             try
@@ -15,9 +15,10 @@ public class Program
             }
             catch
             {
-                exceptionCount++;
+                continue;
             }
-        }
-        return maxAttempts > exceptionCount;
+            return true;
+        } 
+        throw new Exception();
     }
 }
